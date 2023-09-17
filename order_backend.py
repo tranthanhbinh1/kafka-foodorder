@@ -1,5 +1,6 @@
 import json
 import time
+from datetime import datetime
 from kafka import KafkaProducer
 
 ORDER_KAFKA_TOPIC = "order_details"
@@ -13,7 +14,8 @@ for i in range(1, ORDER_LIMIT):
         "order_id": i,
         "user_id": f"tom_{i}",
         "total_cost": i * 2,
-        "items": "burger, sandwich"
+        "items": "burger, sandwich",
+        "timestamp": datetime.now().isoformat()
     }
 
     producer.send(
@@ -21,3 +23,4 @@ for i in range(1, ORDER_LIMIT):
         json.dumps(data).encode("utf-8")
     )
     print(f"Done sending...{i}")
+    time.sleep(0.25)
